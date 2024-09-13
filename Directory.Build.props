@@ -1,0 +1,20 @@
+<Project>
+    <PropertyGroup>
+        <Authors>Microsoft</Authors>
+        <Company>Microsoft</Company>
+        <Description>Experimental, end-to-end AI features for .NET apps. Docs and info at https://github.com/dotnet/smartcomponents</Description>
+        <PackageTags>ai;aspnetcore;blazor;mvc;razor;autocomplete;paste;typeahead;smartcomponents;embedding;</PackageTags>
+        <PackageProjectUrl>https://github.com/dotnet/smartcomponents</PackageProjectUrl>
+
+        <VersionPrefix>0.2.0</VersionPrefix>
+        <VersionSuffix Condition="'$(BuildNumber)' == ''">dev</VersionSuffix>
+        <VersionSuffix Condition="'$(BuildNumber)' != ''">preview$([System.String]::Format('{0:00000}', $([MSBuild]::Add($(BuildNumber), 10000))))</VersionSuffix>
+        <PackageVersion>$(VersionPrefix)-$(VersionSuffix)</PackageVersion>
+        <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts\</PackageOutputPath>
+        <IsPackable>false</IsPackable>
+        <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+        <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+        <SharedSrcRoot>$(MSBuildThisFileDirectory)shared\</SharedSrcRoot>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+</Project>

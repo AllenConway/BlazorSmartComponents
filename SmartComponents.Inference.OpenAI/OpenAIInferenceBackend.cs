@@ -54,15 +54,40 @@ public class OpenAIInferenceBackend(IConfiguration configuration)
             }
         }
 
-        var completionsResponse = await client.GetChatCompletionsAsync(chatCompletionsOptions);
-
-        var response = completionsResponse.Value.Choices.FirstOrDefault()?.Message.Content ?? string.Empty;
+        try
+        {
+            var completionsResponse = await client.GetChatCompletionsAsync(chatCompletionsOptions);
+            var response = completionsResponse.Value.Choices.FirstOrDefault()?.Message.Content ?? string.Empty;
 
 #if DEBUG
-        ResponseCache.SetCachedResponse(options, response);
+            ResponseCache.SetCachedResponse(options, response);
 #endif
+            return response;
+        }
+        catch (RequestFailedException ex)
+        {
+            // Log the detailed error message
+            Console.WriteLine($"Request failed: {ex.Message}");
+            Console.WriteLine($"Status: {ex.Status}");
+            Console.WriteLine($"Error Code: {ex.ErrorCode}");
+            throw; // Re-throw the exception if needed
+        }
+        catch (Exception ex)
+        {
+            // Log any other exceptions
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            throw; // Re-throw the exception if needed
+        }
 
-        return response;
+        //        var completionsResponse = await client.GetChatCompletionsAsync(chatCompletionsOptions);
+
+        //        var response = completionsResponse.Value.Choices.FirstOrDefault()?.Message.Content ?? string.Empty;
+
+        //#if DEBUG
+        //        ResponseCache.SetCachedResponse(options, response);
+        //#endif
+
+        //        return response;
     }
 
     private static OpenAIClient CreateClient(ApiConfig apiConfig)

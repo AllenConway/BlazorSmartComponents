@@ -1,10 +1,15 @@
-using BlazorSmartComponents.Components;
+using BlazorSmartComponents.UI.Components;
+using SmartComponents.Inference.OpenAI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddSmartComponents()
+    .WithInferenceBackend<OpenAIInferenceBackend>()
+    .WithAntiforgeryValidation();
 
 var app = builder.Build();
 
